@@ -1,0 +1,445 @@
+/* ============================================================
+   DESIGN TOKENS
+   Palette:  paper #F5F1E6 Â· line #E3DCC9 Â· ink #262420
+             ink-soft #5B5648 Â· steel #3D5A73 Â· brass #A97142
+   Type:     Fraunces (display) Â· Inter (body) Â· IBM Plex Mono (labels)
+   ============================================================ */
+
+:root {
+  --paper: #F5F1E6;
+  --paper-raised: #FBF9F2;
+  --line: #DCD3BC;
+  --line-strong: #B5AD98;
+  --ink: #262420;
+  --ink-soft: #5B5648;
+  --steel: #3D5A73;
+  --steel-soft: #7896A9;
+  --brass: #A97142;
+  --brass-soft: #C99A6B;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --max-w: 1080px;
+  --edge: clamp(20px, 5vw, 56px);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* faint drafting grid across the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.35;
+}
+
+a { color: var(--steel); }
+
+h1, h2, h3 { font-family: var(--font-display); margin: 0; color: var(--ink); }
+
+.tb-label, .eyebrow, .section-num, .project-tag, .spec-row span:first-child,
+.contact-link .tb-label, footer, .project-meta {
+  font-family: var(--font-mono);
+}
+
+/* ============================================================
+   CROP MARKS â€” drafting-sheet corner registration marks
+   ============================================================ */
+.crop-mark {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  border-color: var(--ink-soft);
+  z-index: 5;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.crop-mark.tl { top: 14px; left: 14px; border-top: 1px solid; border-left: 1px solid; }
+.crop-mark.tr { top: 14px; right: 14px; border-top: 1px solid; border-right: 1px solid; }
+.crop-mark.bl { bottom: 14px; left: 14px; border-bottom: 1px solid; border-left: 1px solid; }
+.crop-mark.br { bottom: 14px; right: 14px; border-bottom: 1px solid; border-right: 1px solid; }
+@media (max-width: 640px) { .crop-mark { display: none; } }
+
+/* ============================================================
+   TITLE BLOCK HEADER â€” signature element
+   modeled on an engineering drawing title block
+   ============================================================ */
+.titleblock {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 40px auto 0;
+  padding: 0 var(--edge);
+}
+
+.titleblock__grid {
+  border: 1.5px solid var(--ink);
+  display: grid;
+  grid-template-columns: 2fr 1.4fr 0.7fr 0.7fr 1fr 1.4fr;
+  background: var(--paper-raised);
+}
+
+.tb-field {
+  padding: 14px 16px;
+  border-right: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 76px;
+}
+.tb-field:last-child { border-right: none; }
+
+.tb-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.tb-name h1 {
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.tb-field p { margin: 0; font-size: 0.92rem; }
+
+.titleblock__nav {
+  display: flex;
+  gap: 28px;
+  padding: 14px 4px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+.titleblock__nav a {
+  text-decoration: none;
+  color: var(--ink);
+  position: relative;
+  padding-bottom: 2px;
+}
+.titleblock__nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--brass);
+  transition: right 0.25s ease;
+}
+.titleblock__nav a:hover::after { right: 0; }
+
+@media (max-width: 760px) {
+  .titleblock__grid { grid-template-columns: 1fr 1fr; }
+  .tb-name { grid-column: 1 / -1; }
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--edge);
+}
+
+/* dimension-line divider between sections */
+.dim-divider {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--edge);
+  position: relative;
+  z-index: 1;
+}
+.dim-divider span {
+  display: block;
+  position: relative;
+  height: 1px;
+  background: var(--line-strong);
+  margin: 8px 0;
+}
+.dim-divider span::before,
+.dim-divider span::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--line-strong);
+}
+.dim-divider span::before { left: 0; }
+.dim-divider span::after { right: 0; }
+
+/* ============================================================
+   HERO / ABOUT
+   ============================================================ */
+.hero {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 48px;
+  padding: 64px 0 48px;
+  align-items: start;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  color: var(--brass);
+  letter-spacing: 0.04em;
+  margin: 0 0 18px;
+}
+
+.hero__statement {
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.22;
+  margin-bottom: 22px;
+}
+
+.hero__body {
+  color: var(--ink-soft);
+  max-width: 52ch;
+  font-size: 1.02rem;
+}
+
+.hero__specs {
+  border-top: 1.5px solid var(--ink);
+  padding-top: 12px;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.86rem;
+}
+.spec-row span:first-child {
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+}
+.spec-row span:last-child { text-align: right; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; padding-top: 40px; }
+}
+
+/* ============================================================
+   SECTION HEADS
+   ============================================================ */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 56px 0 32px;
+  flex-wrap: wrap;
+}
+.section-num {
+  font-size: 0.85rem;
+  color: var(--brass);
+  letter-spacing: 0.05em;
+}
+.section-head h2 {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 500;
+}
+.section-note {
+  flex-basis: 100%;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+  padding-bottom: 16px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card__frame {
+  position: relative;
+  border: 1.5px solid var(--ink);
+  background: var(--paper-raised);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--steel-soft);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.project-card:hover .project-card__frame {
+  box-shadow: 5px 5px 0 var(--brass-soft);
+  transform: translate(-2px, -2px);
+}
+.placeholder-art svg { width: 62%; height: 62%; }
+
+.project-tag {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 0.65rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+
+.project-card h3 {
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+}
+
+.project-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-decoration: none;
+  color: var(--steel);
+  align-self: flex-start;
+  border-bottom: 1px solid transparent;
+}
+.project-link:hover { border-bottom-color: var(--steel); }
+
+.project-card__frame--dashed {
+  border-style: dashed;
+  border-color: var(--line-strong);
+  color: var(--line-strong);
+}
+.add-icon { font-size: 2.4rem; font-family: var(--font-display); }
+.project-card--add .project-desc { font-size: 0.82rem; }
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  padding-bottom: 16px;
+}
+.skill-group {
+  border-top: 1.5px solid var(--ink);
+  padding-top: 12px;
+}
+.skill-group h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+}
+.skill-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.skill-group li::before {
+  content: "â€” ";
+  color: var(--brass);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--line-strong);
+  border: 1.5px solid var(--ink);
+  margin-bottom: 60px;
+}
+.contact-link {
+  background: var(--paper-raised);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.15s ease;
+}
+.contact-link:hover { background: var(--paper); }
+.contact-link .tb-label { font-size: 0.66rem; color: var(--ink-soft); }
+.contact-link span:last-child { font-size: 0.94rem; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  padding: 24px var(--edge) 40px;
+}
+
+/* ============================================================
+   FOCUS STATES â€” accessibility
+   ============================================================ */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--steel);
+  outline-offset: 2px;
+}
