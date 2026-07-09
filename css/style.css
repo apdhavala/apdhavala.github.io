@@ -400,7 +400,7 @@ main {
   gap: 7px;
 }
 .skill-group li::before {
-  content: "-";
+  content: "--";
   color: var(--brass);
 }
 
