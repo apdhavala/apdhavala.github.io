@@ -1,8 +1,8 @@
 /* ============================================================
    DESIGN TOKENS
-   Palette:  paper #F5F1E6 Â· line #E3DCC9 Â· ink #262420
-             ink-soft #5B5648 Â· steel #3D5A73 Â· brass #A97142
-   Type:     Fraunces (display) Â· Inter (body) Â· IBM Plex Mono (labels)
+   Palette:  paper #F5F1E6 · line #E3DCC9 · ink #262420
+             ink-soft #5B5648 · steel #3D5A73 · brass #A97142
+   Type:     Fraunces (display) · Inter (body) · IBM Plex Mono (labels)
    ============================================================ */
 
 :root {
@@ -400,7 +400,7 @@ main {
   gap: 7px;
 }
 .skill-group li::before {
-  content: "â€” ";
+  content: "—” ";
   color: var(--brass);
 }
 
